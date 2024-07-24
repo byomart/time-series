@@ -99,26 +99,28 @@ def toSequence(data, sequenceSize):
 
 
 class ElectricityLstm(pl.LightningModule):
-    def __init__(self):
+    def __init__(self, input_size=1, hidden_size=64, num_layers=1, dropout=0.2, out_features_fc1=32, out_features_fc2=1):
         super(ElectricityLstm, self).__init__()
+        
+        self.save_hyperparameters()
 
-        self.lossFunction = nn.MSELoss()
+        self.lossFunction = nn.MSELoss()        
+        self.lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=num_layers, batch_first=True)
+        self.dropout = nn.Dropout(dropout)
+        self.fc1 = nn.Linear(in_features=hidden_size, out_features=out_features_fc1)
+        self.fc2 = nn.Linear(in_features=out_features_fc1, out_features=out_features_fc2)
 
-        self.lstm = nn.LSTM(input_size=1, hidden_size=64, batch_first=True)
-        self.droput = nn.Dropout(0.2)
-        self.fc1 = nn.Linear(in_features=64, out_features=32)
-        self.fc2 = nn.Linear(in_features=32, out_features=1)
 
     def forward(self, X):
-        print(X.shape)
+        print('A', X.shape)
         out, _ = self.lstm(X)
-        print(out.shape)
+        print('B', out.shape)
         out = out[:, -1, :]
-        out = self.droput(out)
+        out = self.dropout(out)
         out = self.fc1(out)
+        print('C', out.shape)
         out = self.fc2(out)
-
-        
+        print('D', out.shape)
         return out
 
 
@@ -128,6 +130,13 @@ class ElectricityLstm(pl.LightningModule):
         loss = self.lossFunction(out, y)
 
         return {"loss": loss}
+    
+    def validation_step(self, batch, batch_idx):
+        X, y = batch
+        y_hat = self.forward(X)
+        loss = self.lossFunction(y_hat, y)
+        self.log('val_loss', loss)
+        return loss
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=0.0001)
