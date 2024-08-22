@@ -38,3 +38,10 @@ The most relevant parameters of each run are shown below:
 
 
 
+
+Trabajo futuro:
+- Crear y hacer uso de un conjunto de validación.
+- Encontrar el numero de épocas óptimo mediante técnicas de regularización tales como 'Early Stopping'.
+
+
+
