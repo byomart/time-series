@@ -39,9 +39,9 @@ The most relevant parameters of each run are shown below:
 
 
 
-Trabajo futuro:
-- Crear y hacer uso de un conjunto de validación.
-- Encontrar el numero de épocas óptimo mediante técnicas de regularización tales como 'Early Stopping'.
+Future work:
+- Create and make use of a validation set.
+- Find the optimal number of epochs using regularization techniques such as 'Early Stopping'.
 
 
 
