@@ -1,0 +1,7 @@
+dropout: 0.2
+hidden_size: 64
+input_size: 1
+num_layers: 1
+out_features_fc1: 64
+out_features_fc2: 32
+out_features_fc3: 1

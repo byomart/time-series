@@ -49,12 +49,12 @@ INFO:root: xTest shape: torch.Size([4592, 10, 1]), yTest shape: torch.Size([4592
 INFO:root: First Batch shape: X shape: torch.Size([32, 10, 1]), y shape: torch.Size([32, 1])
 INFO:root: Model Architecture: ElectricityLstm(
   (lossFunction): MSELoss()
-  (lstm): LSTM(1, 64, batch_first=True)
+  (lstm): LSTM(1, 64, num_layers=5, batch_first=True)
   (dropout): Dropout(p=0.2, inplace=False)
   (fc1): Linear(in_features=64, out_features=32, bias=True)
   (fc2): Linear(in_features=32, out_features=1, bias=True)
 )
-INFO:root:Average Loss: 163.6422119140625
+INFO:root:Average Loss: 151.44737243652344
 INFO:matplotlib.category:Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
 INFO:matplotlib.category:Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
 INFO:matplotlib.category:Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.

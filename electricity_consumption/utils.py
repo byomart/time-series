@@ -102,7 +102,7 @@ def toSequence(data, sequenceSize):
 
 
 class ElectricityLstm(pl.LightningModule):
-    def __init__(self, input_size=1, hidden_size=64, num_layers=1, dropout=0.2, out_features_fc1=32, out_features_fc2=1):
+    def __init__(self, input_size=1, hidden_size=64, num_layers=5, dropout=0.2, out_features_fc1=32, out_features_fc2=1):
         super(ElectricityLstm, self).__init__()
         
         self.save_hyperparameters()
@@ -115,15 +115,11 @@ class ElectricityLstm(pl.LightningModule):
 
 
     def forward(self, X):
-        # print('A', X.shape)
         out, _ = self.lstm(X)
-        # print('B', out.shape)
         out = out[:, -1, :]
         out = self.dropout(out)
         out = self.fc1(out)
-        # print('C', out.shape)
         out = self.fc2(out)
-        # print('D', out.shape)
         return out
 
 
