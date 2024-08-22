@@ -26,6 +26,8 @@ The most relevant parameters of each run are shown below:
 - version 4: 3 LTSM layers (until now just 1 layer)
 - version 5: 5 LTSM layers (BEST RESULT)
 
+https://github.com/fbayomartinez/time-series/blob/f85c5dd2d8727cbf154f008918697dab67d42c7d/electricity_consumption/consumption_prediction/electricity_consumption_prediction_20240822_121945_version5.png
+
 - version 6: 10 LTSM layers (+ LOSS = OVERFITTING)
 - version 7: 5 LTSM y lr=0.01 (before it was lr=0.0001)
 - version 8: 5 LTSM y lr=0.001
