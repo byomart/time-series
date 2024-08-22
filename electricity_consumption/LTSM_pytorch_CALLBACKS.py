@@ -43,11 +43,14 @@ train = scaler.fit_transform(train).flatten().tolist()
 test = scaler.transform(test).flatten().tolist()
 # now we have zero mean and unit variance, so nn will learn more efficiently and effectively
 
+
 # split datasets in sequences with a window size (10 data sequence)
 xTrain, yTrain = utils.toSequence(train, window_size)
 xTest, yTest = utils.toSequence(test, window_size)
 logging.info(f' xTrain shape: {xTrain.shape}, yTrain shape: {yTrain.shape}')
 logging.info(f' xTest shape: {xTest.shape}, yTest shape: {yTest.shape}')
+
+
 
 
 
@@ -71,6 +74,23 @@ for batch in train_loader:
 
 model = utils.ElectricityLstm()
 logging.info(f' Model Architecture: {model}')
+
+
+# # callback to save checkpoints
+# checkpoint_callback = ModelCheckpoint(
+#     monitor='val_loss',  # Monitorizar la métrica de validación
+#     dirpath='my_checkpoints',  # Directorio para guardar checkpoints
+#     filename='best-checkpoint',  # Nombre del archivo
+#     save_top_k=1,  # Guardar solo el mejor modelo
+#     mode='min'  # Guardar el modelo con el menor valor de la métrica monitoreada
+# )
+
+# trainer = pl.Trainer(
+#     max_epochs=numberOfEpochs,
+#     callbacks=[checkpoint_callback]
+# )
+
+
 trainer = pl.Trainer(max_epochs=numberOfEpochs)
 model.train()
 trainer.fit(model, train_loader)
@@ -93,8 +113,8 @@ scaledYTest = scaler.inverse_transform(np.array(actualLabels).reshape(-1, 1))
 avg_loss = np.sqrt(np.mean((scaledPredictions - scaledYTest) ** 2))
 logging.info(f"Average Loss: {avg_loss}")
 
-zoom_data = 400
-utils.draw_predictions(zoom_data, testDates, scaledPredictions, scaledYTest, avg_loss)
+dataSetSize = 400
+utils.draw_predictions(dataSetSize, testDates, scaledPredictions, scaledYTest, avg_loss)
 ###############################################################
 ###############################################################
 

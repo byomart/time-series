@@ -1,7 +1,10 @@
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
+import numpy as np
 import logging
+import os
+from datetime import datetime
 
 import torch
 import torch.nn as nn
@@ -112,15 +115,15 @@ class ElectricityLstm(pl.LightningModule):
 
 
     def forward(self, X):
-        print('A', X.shape)
+        # print('A', X.shape)
         out, _ = self.lstm(X)
-        print('B', out.shape)
+        # print('B', out.shape)
         out = out[:, -1, :]
         out = self.dropout(out)
         out = self.fc1(out)
-        print('C', out.shape)
+        # print('C', out.shape)
         out = self.fc2(out)
-        print('D', out.shape)
+        # print('D', out.shape)
         return out
 
 
@@ -142,5 +145,32 @@ class ElectricityLstm(pl.LightningModule):
         return torch.optim.Adam(self.parameters(), lr=0.0001)
     
 
+def draw_predictions(dataSetSize, dates, prediction, real, avg_loss):
+    plt.figure(figsize=(12,10))
+    plt.plot(dates[:dataSetSize], prediction[:dataSetSize], label="Predicted")
+    plt.plot(dates[:dataSetSize], real[:dataSetSize], label="Real")
 
+    x_pos = dataSetSize * 0.01 
+    y_pos = np.min(real) + (np.max(real) - np.min(real)) * 0.05  
+    plt.text(
+        x_pos, y_pos, f'Avg. Loss: {avg_loss:.2f}',  
+        fontsize=9,
+        color='black',
+        bbox=dict(facecolor='white', alpha=0.5),
+        horizontalalignment='left', 
+        verticalalignment='bottom'  
+    )
 
+    plt.legend()
+    plt.xticks(np.arange(0, dataSetSize, round((dataSetSize / 5)/10)*10))
+    plt.xticks(rotation=0)
+
+    # save image
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    filename = f'electricity_consumption_prediction_{timestamp}.png'
+    output_dir = 'consumption_prediction'
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    filepath = os.path.join(output_dir, filename)
+    plt.savefig(filepath)
+    plt.close()
