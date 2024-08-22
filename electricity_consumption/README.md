@@ -27,7 +27,7 @@ The most relevant parameters of each run are shown below:
 - version 5: 5 LTSM layers (BEST RESULT)
 
 <p align="center">
-<img width="750" alt="Best energy consumption prediction" src="https://github.com/fbayomartinez/time-series/blob/5c4f7ad83d4795cd4249060381825731e9b28b2b/electricity_consumption/consumption_prediction/electricity_consumption_prediction_version5.png">
+<img width="1000" alt="Best energy consumption prediction" src="https://github.com/fbayomartinez/time-series/blob/5c4f7ad83d4795cd4249060381825731e9b28b2b/electricity_consumption/consumption_prediction/electricity_consumption_prediction_version5.png">
 </p>
 
 
