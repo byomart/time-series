@@ -1,0 +1,9 @@
+paths:
+  model: 'outputs/model/transformer_model.pth'
+
+model parameters:
+  epochs: 1000
+  lr: 0.001
+
+images:
+  zoom: 400
