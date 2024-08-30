@@ -10,5 +10,5 @@
 </p>
 
 <p align="center">
-<img width="1000" alt="https://github.com/fbayomartinez/time-series/blob/f5d1b9d731d7a2ac01403285aedfafcb72816481/TRANSFORMERS_forecasting/outputs/images/transf_forecast.png">
+<img width="1000" alt="https://github.com/fbayomartinez/time-series/blob/b0be5926eea2d25f67ebaa4bdd69cc44463ae986/TRANSFORMERS_forecasting/outputs/images/transf_forecast.png">
 </p>
