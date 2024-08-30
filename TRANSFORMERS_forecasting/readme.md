@@ -8,3 +8,7 @@
 <p align="center">
 <img width="1000" alt="Best energy consumption prediction" src="https://github.com/fbayomartinez/time-series/blob/dde464f0c6b748744dd29b1885c498936e043535/TRANSFORMERS_forecasting/outputs/images/transf_forecast.png">
 </p>
+
+<p align="center">
+<img width="1000" alt="https://github.com/fbayomartinez/time-series/blob/f5d1b9d731d7a2ac01403285aedfafcb72816481/TRANSFORMERS_forecasting/outputs/images/transf_forecast.png">
+</p>
