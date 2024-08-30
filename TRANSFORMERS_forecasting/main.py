@@ -3,7 +3,8 @@ import logging, yaml, torch
 
 
 logging.basicConfig(filename='logs/log.log', 
-                    level='INFO')
+                    level='INFO',
+                    filemode='w')
 
 
 # load config file
@@ -15,8 +16,18 @@ df = data.load_data_from_config(config)
 logging.info(df.head())
 
 # Dataset preprocessing
-processor = preprocess.SunspotDataProcessor(sequence_size=10, batch_size=32) # class instance
+sequence_size = config['sequence']['size']
+batch_size = config['model parameters']['batch_size']
+
+processor = preprocess.SunspotDataProcessor(sequence_size, batch_size) # class instance
 x_train, y_train, x_test, y_test, test_dates = processor.preprocess_and_generate_sequences(df)
+logging.info(x_train.shape)
+logging.info(y_train.shape)
+logging.info(x_test.shape)
+logging.info(y_test.shape)
+logging.info(test_dates.shape)
+
+
 # DataLoaders configuration
 train_loader, test_loader = processor.setup_data_loaders(x_train, y_train, x_test, y_test)
 
@@ -26,13 +37,14 @@ train_loader, test_loader = processor.setup_data_loaders(x_train, y_train, x_tes
 model_path = config['paths']['model']
 epochs = config['model parameters']['epochs']
 lr = config['model parameters']['lr']
+patience = config['model parameters']['patience']
 
 # cuda if possible
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 # # train
 # model = utils.TransformerModel()
-# trained_model = train.train_model(model, train_loader, test_loader, epochs, lr, patience=5, device="cuda", model_path)
+# trained_model = train.train_model(model, train_loader, test_loader, epochs, lr, patience, device, model_path)
 
 # # load trained model
 model = utils.TransformerModel().to(device)

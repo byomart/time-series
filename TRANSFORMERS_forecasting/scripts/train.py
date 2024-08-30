@@ -2,9 +2,10 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.optim.lr_scheduler import ReduceLROnPlateau
+from scripts import regularization
 
 
-def train_model(model, train_loader, test_loader, epochs, lr, device, model_path, patience=3):
+def train_model(model, train_loader, test_loader, epochs, lr, patience, device, model_path):
     
     model.to(device)
     
@@ -12,8 +13,7 @@ def train_model(model, train_loader, test_loader, epochs, lr, device, model_path
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     scheduler = ReduceLROnPlateau(optimizer, 'min', factor=0.5, patience=patience, verbose=True)
     
-    early_stop_count = 0
-    min_val_loss = float('inf')
+    early_stopping = regularization.EarlyStopping(patience=patience, verbose=True, path=model_path)
 
     for epoch in range(epochs):
         model.train()
@@ -41,19 +41,11 @@ def train_model(model, train_loader, test_loader, epochs, lr, device, model_path
         val_loss = np.mean(val_losses)
         scheduler.step(val_loss)
 
-        if val_loss < min_val_loss:
-            min_val_loss = val_loss
-            early_stop_count = 0
-            if model_path:
-                torch.save(model.state_dict(), model_path)
 
-        else:
-            early_stop_count += 1
-
-        if early_stop_count >= patience:
-            print("Early stopping!")
+        print(f"Epoch {epoch + 1}/{epochs}, Validation Loss: {val_loss:.4f}")
+        early_stopping(val_loss, model)
+        if early_stopping.early_stop:
+            print("Early stopping triggered!")
             break
         
-        print(f"Epoch {epoch + 1}/{epochs}, Validation Loss: {val_loss:.4f}")
-
     return model
