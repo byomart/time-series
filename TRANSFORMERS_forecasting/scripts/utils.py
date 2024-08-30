@@ -52,12 +52,14 @@ class TransformerModel(nn.Module):
     
 
 
-def draw_predictions(zoom_data, dates, prediction, real):
+def draw_predictions(zoom_data, dates, prediction, real, rmse):
     
     plt.figure(figsize=(12,10))
     plt.plot(dates[:zoom_data], prediction[:zoom_data], label="Predicted")
     plt.plot(dates[:zoom_data], real[:zoom_data], label="Real")
     plt.legend()
+    plt.text(0.05, 0.95, f'Avg loss: {rmse:.4f}', transform=plt.gca().transAxes,
+         fontsize=14, verticalalignment='top', bbox=dict(facecolor='white', alpha=0.5))
 
     # # save image
     # timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')

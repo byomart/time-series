@@ -1,4 +1,5 @@
 paths:
+  data: 'https://data.heatonresearch.com/data/t81-558/SN_d_tot_V2.0.csv'
   model: 'outputs/model/transformer_model.pth'
 
 model parameters:

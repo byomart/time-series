@@ -3,17 +3,17 @@ import torch
 
 def evaluate_model(model, test_loader, scaler, y_test, device):
     """
-    Evalúa el modelo en el conjunto de datos de prueba y calcula el RMSE.
+    Evaluates the model on the test dataset and calculates the RMSE.
 
     Args:
-        model (nn.Module): El modelo a evaluar.
-        test_loader (DataLoader): El DataLoader para el conjunto de datos de prueba.
-        scaler (StandardScaler): El escalador utilizado para normalizar los datos.
-        y_test (torch.Tensor): Las etiquetas verdaderas para el conjunto de datos de prueba.
-        device (str): El dispositivo en el que se encuentra el modelo ('cuda' o 'cpu').
+        model (nn.Module): The model to evaluate.
+        test_loader (DataLoader): The DataLoader for the test dataset.
+        scaler (StandardScaler): The scaler used to normalize the data.
+        y_test (torch.Tensor): The true labels for the test dataset.
+        device (str): The device where the model is located ('cuda' or 'cpu').
 
     Returns:
-        tuple: Las predicciones escaladas y las etiquetas verdaderas escaladas.
+        tuple: The scaled predictions and the scaled true labels.
     """
     model.eval()
     predictions = []
@@ -24,15 +24,15 @@ def evaluate_model(model, test_loader, scaler, y_test, device):
             outputs = model(x_batch)
             predictions.extend(outputs.squeeze().tolist())
 
-    # Convertir predicciones a array de numpy
+    # Convert predictions to numpy array
     predictions = np.array(predictions).reshape(-1, 1)
     y_test = y_test.numpy().reshape(-1, 1)
 
-    # Invertir la normalización
+    # Reverse normalization
     scaled_predictions = scaler.inverse_transform(predictions)
     scaled_y_test = scaler.inverse_transform(y_test)
 
-    # Calcular RMSE
+    # Calculate RMSE
     rmse = np.sqrt(np.mean((scaled_predictions - scaled_y_test) ** 2))
 
     return scaled_predictions, scaled_y_test, rmse
